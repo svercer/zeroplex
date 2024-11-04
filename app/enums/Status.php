@@ -1,6 +1,6 @@
 <?php
 
-namespace enums;
+namespace App\Enums;
 
 enum Status: int
 {
