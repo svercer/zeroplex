@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
@@ -36,11 +38,20 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        try {
+            DB::beginTransaction();
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+            $user->syncRoles(Role::USER->value);
+            DB::commit();
+        } catch (\Throwable $tr) {
+            DB::rollBack();
+            throw $tr;
+        }
+
 
         event(new Registered($user));
 
