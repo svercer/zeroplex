@@ -2,9 +2,9 @@
 
 namespace App\Enums;
 
-enum Status: int
+enum Status: string
 {
-    case TODO = 0;
-    case IN_PROGRESS = 1;
-    case COMPLETED = 2;
+    case TODO = 'Todo';
+    case IN_PROGRESS = "In progress";
+    case COMPLETED = "Completed";
 }
