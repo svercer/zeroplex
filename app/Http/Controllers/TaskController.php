@@ -47,7 +47,8 @@ class TaskController extends Controller
 
     public function show(Task $task)
     {
-        return Inertia::render('Task/View', ['task' => $task->load('status')]);
+        $task->load(['status', 'comments', 'comments.user','user']);
+        return Inertia::render('Task/View', ['task' => $task]);
     }
 
     public function edit(Task $task)

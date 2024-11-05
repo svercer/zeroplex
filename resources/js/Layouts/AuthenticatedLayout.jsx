@@ -5,6 +5,9 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import {Link, usePage} from '@inertiajs/react';
 import {useState} from 'react';
 
+import 'react-toastify/dist/ReactToastify.css'
+import {toast, ToastContainer} from 'react-toastify'
+
 export default function AuthenticatedLayout({header, children}) {
     const user = usePage().props.auth.user;
 
@@ -187,6 +190,7 @@ export default function AuthenticatedLayout({header, children}) {
                     </div>
                 </div>
             </main>
+            <ToastContainer/>
         </div>
     );
 }

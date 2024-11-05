@@ -4,7 +4,6 @@ import {useForm} from '@inertiajs/react'
 import TextInput from "@/Components/TextInput.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import 'react-toastify/dist/ReactToastify.css'
-
 import {toast, ToastContainer} from 'react-toastify'
 
 const Create = () => {
