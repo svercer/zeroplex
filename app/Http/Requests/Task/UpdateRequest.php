@@ -12,7 +12,7 @@ class UpdateRequest extends FormRequest
             'title' => ['required', 'string'],
             'description' => ['required', 'string'],
             'due_date' => ['required', 'date'],
-            'status' => ['required', 'exists:statuses,id']
+            'status_id' => ['required', 'exists:statuses,id']
         ];
     }
 

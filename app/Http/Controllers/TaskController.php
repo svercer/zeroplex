@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Task\CreateRequest;
+use App\Http\Requests\Task\UpdateRequest;
+use App\Models\Enums\Role;
 use App\Models\Status;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -14,8 +16,13 @@ class TaskController extends Controller
 {
     public function index()
     {
-        Gate::authorize('viewAny', [Task::class, request()->user()]);
-        return Inertia::render('Task/Index');
+        if (request()->user()->hasRole(Role::ADMIN->value)) {
+            $tasks = Task::with('user', 'status')->get();
+        } else {
+            $tasks = request()->user()->tasks()->with('status')->get();
+        }
+
+        return Inertia::render('Task/Index', ['tasks' => $tasks]);
     }
 
     public function create()
@@ -30,28 +37,39 @@ class TaskController extends Controller
             ...['user_id' => Auth::user()->id, 'status_id' => 1]
         ];
 
-        Task::create($req);
+        try {
+            Task::create($req);
+        } catch (\Throwable $tr) {
+            throw $tr;
+        }
         return to_route('tasks.create');
     }
 
-    public function show($id)
+    public function show(Task $task)
     {
-        return Inertia::render('Task/View');
+        return Inertia::render('Task/View', ['task' => $task->load('status')]);
     }
 
     public function edit(Task $task)
     {
+        Gate::authorize('update', $task);
         return Inertia::render('Task/Edit', ['task' => $task, 'statuses' => Status::all()]);
     }
 
-    public function update(Request $request, Task $task)
+    public function update(UpdateRequest $request, Task $task)
     {
-        $task->update($request->all());
+        Gate::authorize('update', $task);
+        try {
+            $task->update($request->all());
+        } catch (\Throwable $tr) {
+            throw $tr;
+        }
         return redirect()->back()->with(['message' => __('task.updated')]);
     }
 
     public function destroy(Task $task)
     {
+        Gate::authorize('update', $task);
         try {
             $task->delete();
         } catch (\Throwable $tr) {
