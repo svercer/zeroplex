@@ -11,13 +11,13 @@ class StatusSeeder extends Seeder
     {
         $statuses = [
             [
-                'name' => \App\Enums\Status::TODO->value,
+                'name' => \App\Models\Enums\Status::TODO->value,
             ],
             [
-                'name' => \App\Enums\Status::IN_PROGRESS->value,
+                'name' => \App\Models\Enums\Status::IN_PROGRESS->value,
             ],
             [
-                'name' => \App\Enums\Status::COMPLETED->value,
+                'name' => \App\Models\Enums\Status::COMPLETED->value,
             ],
         ];
         foreach ($statuses as $status) {
