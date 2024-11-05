@@ -23,7 +23,7 @@ const Edit = () => {
             onSuccess: async () => {
                 await toast.success('Task was updated');
                 setTimeout(() => {
-                    router.visit(route('dashboard'))
+                    router.visit(route('tasks.index'))
                 }, 1000)
             }
         })

@@ -190,7 +190,6 @@ export default function AuthenticatedLayout({header, children}) {
                     </div>
                 </div>
             </main>
-            <ToastContainer/>
         </div>
     );
 }

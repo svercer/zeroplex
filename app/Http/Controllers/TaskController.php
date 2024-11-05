@@ -83,17 +83,17 @@ class TaskController extends Controller
         } catch (\Throwable $tr) {
             throw $tr;
         }
-        return redirect()->back()->with(['message' => __('task.updated')]);
+        return redirect()->back();
     }
 
     public function destroy(Task $task)
     {
-        Gate::authorize('update', $task);
+        Gate::authorize('delete', $task);
         try {
             $task->delete();
         } catch (\Throwable $tr) {
             throw $tr;
         }
-        return redirect()->back()->with(['message' => 'Deleted']);
+        return to_route('tasks.index');
     }
 }

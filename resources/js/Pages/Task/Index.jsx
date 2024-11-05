@@ -13,7 +13,6 @@ import queryString from 'query-string';
 
 const Index = () => {
     const {tasks, auth, statuses} = usePage().props
-    const [taskList, setTaskList] = useState(tasks);
     const parsed = queryString.parse(location.search);
 
     const [taskToDelete, setTaskToDelete] = useState(null)
@@ -35,9 +34,8 @@ const Index = () => {
     const deleteTask = () => {
         router.delete(route('tasks.destroy', {id: taskToDelete.id}), {
             onSuccess: (response) => {
-                onClose()
                 toast.success("Successfully deleted")
-                router.reload()
+                onClose()
             }
         })
     }
@@ -47,19 +45,12 @@ const Index = () => {
         status_id: parsed?.status_id ?? ''
     })
 
-
-    console.log('data', data)
-
-
     const handleFilter = (e) => {
         e.preventDefault()
         get(route('tasks.index', {
             due_date: data.due_date,
             status_id: data.status_id,
-        }), {
-            onSuccess: (response) => {
-            }
-        })
+        }))
     };
 
     return (
@@ -112,7 +103,7 @@ const Index = () => {
                 </thead>
                 <tbody>
                 {
-                    taskList?.map(task => {
+                    tasks?.map(task => {
                         return (
                             <tr key={task.id}>
                                 <td className="border border-gray-300 px-4 py-2">{task.title}</td>
