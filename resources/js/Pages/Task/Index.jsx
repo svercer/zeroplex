@@ -67,7 +67,7 @@ const Index = () => {
                     <p>Are you sure you want to delete <span
                         className={'font-bold'}>{taskToDelete?.title}</span></p>
                     <div className={'flex flex-row justify-end w-full items-center gap-3'}>
-                        <SecondaryButton>Cancel</SecondaryButton>
+                        <SecondaryButton onClick={onClose}>Cancel</SecondaryButton>
                         <DangerButton onClick={deleteTask}>Confirm</DangerButton>
                     </div>
                 </div>

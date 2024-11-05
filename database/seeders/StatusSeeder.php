@@ -21,7 +21,10 @@ class StatusSeeder extends Seeder
             ],
         ];
         foreach ($statuses as $status) {
-            Status::create($status);
+            $existingStatus = Status::where('name', $status['name'])->first();
+            if (!$existingStatus) {
+                Status::create($status);
+            }
         }
     }
 }

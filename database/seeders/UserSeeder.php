@@ -30,12 +30,18 @@ class UserSeeder extends Seeder
         ];
 
          foreach ($users as $user) {
-             $createdUser = User::create($user);
+             $existingUser = User::where('email', $user['email'])->first();
+             if (!$existingUser) {
+                 $createdUser = User::firstOrCreate($user);
                 $createdUser->syncRoles(Role::USER->value);
+             }
          }
 
-         $createdAdmin = User::create($admin);
-         $createdAdmin->syncRoles(Role::ADMIN->value);
+         $existingAdmin = User::where('email',$admin['email'])->first();
+         if (!$existingAdmin) {
+            $createdAdmin = User::create($admin);
+            $createdAdmin->syncRoles(Role::ADMIN->value);
+         }
 
 
     }

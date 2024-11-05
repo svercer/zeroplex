@@ -9,6 +9,8 @@
 
 ## Start Zeroplex Laravel App
 
+## Install Docker on your machine
+If you dont wanna use docker run everyting with php instead of sail and remove sail up command
 ### clone the repository
 
 ### Run following commands in order
