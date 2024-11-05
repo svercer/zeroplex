@@ -14,10 +14,6 @@
 ### Run following commands in order
 
 ```composer install```
-```sail up -d```
-
-flag -d is detach mode so you can continue using same terminal
-
 Make a Copy from .env.example to .env using following command
 ```cp .env.example .env```
 
@@ -31,6 +27,12 @@ DB_DATABASE=zeroplex
 DB_USERNAME=sail
 DB_PASSWORD=password
 ```
+
+```sail up -d```
+
+flag -d is detach mode so you can continue using same terminal
+
+
 ### Generate application key by running this command
 ```sail artisan key:generate```
 
@@ -40,6 +42,8 @@ Run npm commands
 ```npm run dev```
 
 
-```sail artisan migrate --seed```
+```sail artisan migrate:refresh --seed```
+
+
 
 
