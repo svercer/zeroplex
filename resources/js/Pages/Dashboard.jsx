@@ -15,9 +15,7 @@ export default function Dashboard() {
         >
             <Head title="Dashboard" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg p-6 min-h-screen relative flex flex-col gap-2">
+
                         <div className={'w-full flex justify-end'}>
                             <Link href={route('tasks.create')} className={'underline text-blue-500'}>Add</Link>
                         </div>
@@ -52,9 +50,6 @@ export default function Dashboard() {
                             }
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
         </AuthenticatedLayout>
 );
 }

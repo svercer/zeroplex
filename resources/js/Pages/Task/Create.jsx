@@ -1,10 +1,11 @@
 import React from 'react';
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 
 const Create = () => {
     return (
-        <div>
+        <AuthenticatedLayout>
             Create Task
-        </div>
+        </AuthenticatedLayout>
     );
 };
 
