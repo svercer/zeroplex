@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->string('title', 64);
             $table->longText('description' );
             $table->date('due_date');
-            $table->string('status')->default(\App\Enums\Status::TODO->value);
+            $table->foreignId('status_id')->constrained('statuses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });

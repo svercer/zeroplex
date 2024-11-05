@@ -9,7 +9,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $tasks = request()->user()->tasks()->get();
+        $tasks = request()->user()->tasks()->with('status')->get();
         return Inertia::render("Dashboard", ['tasks' => $tasks]);
 
     }

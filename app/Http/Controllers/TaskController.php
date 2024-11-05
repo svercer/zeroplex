@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Task\CreateRequest;
+use App\Models\Status;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -20,9 +23,15 @@ class TaskController extends Controller
         return Inertia::render('Task/Create');
     }
 
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        //        store
+        $req = [
+            ...$request->all(),
+            ...['user_id' => Auth::user()->id, 'status_id' => 1]
+        ];
+
+        Task::create($req);
+        return to_route('tasks.create');
     }
 
     public function show($id)
@@ -32,17 +41,22 @@ class TaskController extends Controller
 
     public function edit(Task $task)
     {
-        return Inertia::render('Task/Edit', ['task' => $task]);
+        return Inertia::render('Task/Edit', ['task' => $task, 'statuses' => Status::all()]);
     }
 
     public function update(Request $request, Task $task)
     {
-        dd($task);
-//        update
+        $task->update($request->all());
+        return redirect()->back()->with(['message' => __('task.updated')]);
     }
 
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        return Task::delete($id);
+        try {
+            $task->delete();
+        } catch (\Throwable $tr) {
+            throw $tr;
+        }
+        return redirect()->back()->with(['message' => 'Deleted']);
     }
 }
