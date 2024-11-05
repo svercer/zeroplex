@@ -1,14 +1,21 @@
 import React, {useCallback, useState} from 'react';
-import {Head, Link, router, usePage} from "@inertiajs/react";
+import {Head, Link, router, useForm, usePage} from "@inertiajs/react";
 import {toast, ToastContainer} from "react-toastify";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import Modal from "@/Components/Modal.jsx";
 import SecondaryButton from "@/Components/SecondaryButton.jsx";
 import DangerButton from "@/Components/DangerButton.jsx";
 import {isAdmin} from "@/src/utils.js";
+import TextInput from "@/Components/TextInput.jsx";
+import PrimaryButton from "@/Components/PrimaryButton.jsx";
+
+import queryString from 'query-string';
 
 const Index = () => {
-    const {tasks, auth} = usePage().props
+    const {tasks, auth, statuses} = usePage().props
+    const [taskList, setTaskList] = useState(tasks);
+    const parsed = queryString.parse(location.search);
+
     const [taskToDelete, setTaskToDelete] = useState(null)
     const [open, setOpen] = useState(false)
 
@@ -35,6 +42,26 @@ const Index = () => {
         })
     }
 
+    const {data, setData, get, processing,} = useForm({
+        due_date: parsed?.due_date ?? '',
+        status_id: parsed?.status_id ?? ''
+    })
+
+
+    console.log('data', data)
+
+
+    const handleFilter = (e) => {
+        e.preventDefault()
+        get(route('tasks.index', {
+            due_date: data.due_date,
+            status_id: data.status_id,
+        }), {
+            onSuccess: (response) => {
+            }
+        })
+    };
+
     return (
         <AuthenticatedLayout
             header={
@@ -58,6 +85,20 @@ const Index = () => {
             <div className={'w-full flex justify-end'}>
                 <Link href={route('tasks.create')} className={'underline text-blue-500'}>Add</Link>
             </div>
+            <form className={'flex flex-row gap-2 justify-start items-center'} onSubmit={handleFilter}>
+                <TextInput type={'date'} onChange={(e) => setData('due_date', e.target.value)} value={data.due_date}/>
+                {
+                    <select value={data.status_id} onChange={(e) => setData('status_id', e.target.value)}>
+                        {statuses.map(status => {
+                            return (
+                                <option key={status.id} value={status.id}>{status.name}</option>
+                            )
+                        })}
+                    </select>
+                }
+                <PrimaryButton type={'submit'} disabled={processing}>Search</PrimaryButton>
+                <Link href={route('tasks.index')}>Reset</Link>
+            </form>
             <table>
                 <thead>
                 <tr>
@@ -71,7 +112,7 @@ const Index = () => {
                 </thead>
                 <tbody>
                 {
-                    tasks?.map(task => {
+                    taskList?.map(task => {
                         return (
                             <tr key={task.id}>
                                 <td className="border border-gray-300 px-4 py-2">{task.title}</td>

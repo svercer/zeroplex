@@ -14,15 +14,33 @@ use Inertia\Inertia;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (request()->user()->hasRole(Role::ADMIN->value)) {
-            $tasks = Task::with('user', 'status')->get();
+            $tasks = Task::with('user', 'status')
+                ->where(function ($query) use ($request) {
+                    if ($request->due_date) {
+                        $query->where('due_date', $request->due_date);
+                    }
+                    if ($request->status_id) {
+                        $query->where('status_id', $request->status_id);
+                    }
+                })
+                ->get();
         } else {
-            $tasks = request()->user()->tasks()->with('status')->get();
+            $tasks = request()->user()->tasks()->with('status')
+                ->where(function ($query) use ($request) {
+                    if ($request->due_date) {
+                        $query->where('due_date', $request->due_date);
+                    }
+                    if ($request->status_id) {
+                        $query->where('status_id', $request->status_id);
+                    }
+                })
+                ->get();
         }
 
-        return Inertia::render('Task/Index', ['tasks' => $tasks]);
+        return Inertia::render('Task/Index', ['tasks' => $tasks, 'statuses' => Status::all()]);
     }
 
     public function create()

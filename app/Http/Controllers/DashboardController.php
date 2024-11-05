@@ -12,7 +12,12 @@ class DashboardController extends Controller
     public function index()
     {
         try {
-            $tasks_count = Auth::user()->tasks()->count();
+            if (request()->user()->hasRole(Role::ADMIN->value)) {
+
+                $tasks_count = Task::all()->count();
+            } else {
+                $tasks_count = Auth::user()->tasks()->count();
+            }
         } catch (\Throwable $tr) {
             throw $tr;
         }
