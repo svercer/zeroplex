@@ -1,10 +1,10 @@
 @component('mail::message')
 # Introduction
 
-The body of your message.
-
-@component('mail::button', ['url' => ''])
-Button Text
+Task Expiration
+Your task: {{$task->title}} has expired
+@component('mail::button', ['url' => route('tasks.show', ['task' => $task->id])])
+    View Text
 @endcomponent
 
 Thanks,<br>
