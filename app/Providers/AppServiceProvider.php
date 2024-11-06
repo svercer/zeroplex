@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Jobs\TaskExpirationJob;
 use App\Models\Task;
 use App\Policies\TaskPolicy;
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,4 +30,6 @@ class AppServiceProvider extends ServiceProvider
     protected $policies = [
         Task::class => TaskPolicy::class,
     ];
+
+
 }
