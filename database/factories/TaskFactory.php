@@ -20,7 +20,7 @@ class TaskFactory extends Factory
             'due_date' => Carbon::now(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-            'status_id' => Status::factory(),
+            'status_id' => $this->faker->numberBetween(1, 3),
             'user_id' => User::factory(),
         ];
     }

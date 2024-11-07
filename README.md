@@ -47,5 +47,21 @@ Run npm commands
 ```sail artisan migrate:refresh --seed```
 
 
+## Jobs
+
+to run the job that sends info about the due jobs 
+run this command in one terminal and let it open
+
+```sail artisan queue:work --queue=tasks,emails```
+
+and then in other terminal run 
+
+```sail artisan tinker```
+
+then run 
+
+```Artisan::call(task:expiration)```
+
+
 
 
