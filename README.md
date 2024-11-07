@@ -11,6 +11,8 @@
 
 ## Install Docker on your machine
 If you dont wanna use docker run everyting with php instead of sail and remove sail up command
+For this you will need to have local 8+ Mysql server installed on your Machine and a latest 8.3 php version with a latest NodeJS.  
+
 ### clone the repository
 
 ### Run following commands in order
