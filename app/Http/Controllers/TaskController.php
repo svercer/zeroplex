@@ -16,28 +16,32 @@ class TaskController extends Controller
 {
     public function index(Request $request)
     {
-        if (request()->user()->hasRole(Role::ADMIN->value)) {
-            $tasks = Task::with('user', 'status')
-                ->where(function ($query) use ($request) {
-                    if ($request->due_date) {
-                        $query->where('due_date', $request->due_date);
-                    }
-                    if ($request->status_id) {
-                        $query->where('status_id', $request->status_id);
-                    }
-                })
-                ->get();
-        } else {
-            $tasks = request()->user()->tasks()->with('status')
-                ->where(function ($query) use ($request) {
-                    if ($request->due_date) {
-                        $query->where('due_date', $request->due_date);
-                    }
-                    if ($request->status_id) {
-                        $query->where('status_id', $request->status_id);
-                    }
-                })
-                ->get();
+        try {
+            if (request()->user()->hasRole(Role::ADMIN->value)) {
+                $tasks = Task::with('user', 'status')
+                    ->where(function ($query) use ($request) {
+                        if ($request->due_date) {
+                            $query->where('due_date', $request->due_date);
+                        }
+                        if ($request->status_id) {
+                            $query->where('status_id', $request->status_id);
+                        }
+                    })
+                    ->get();
+            } else {
+                $tasks = request()->user()->tasks()->with('status')
+                    ->where(function ($query) use ($request) {
+                        if ($request->due_date) {
+                            $query->where('due_date', $request->due_date);
+                        }
+                        if ($request->status_id) {
+                            $query->where('status_id', $request->status_id);
+                        }
+                    })
+                    ->get();
+            }
+        } catch (\Throwable $tr) {
+            throw $tr;
         }
 
         return Inertia::render('Task/Index', ['tasks' => $tasks, 'statuses' => Status::all()]);

@@ -20,7 +20,6 @@ const View = () => {
             data,
             onSuccess: () => {
                 reset('text')
-                toast.success('added')
             }
         })
     }
@@ -39,7 +38,7 @@ const View = () => {
                     <p className={'text-xl text-gray-400'}>{task.status.name}</p>
                 </a>
                 <div
-                    className={'flex flex-col gap-2 bg-gray-600 w-96 border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-600 dark:border-gray-700 dark:hover:bg-gray-700 p-3 relative'}>
+                    className={'flex flex-col gap-2 bg-gray-600 w-96 border border-gray-200 rounded-lg shadow  dark:bg-gray-600 dark:border-gray-700 dark:hover:bg-gray-700 p-3 relative'}>
                     <h1 className={'text-white'}>Comments</h1>
                     <div className={'text-white min-h-[300px] max-h-[500px] overflow-scroll'}>
                         {task?.comments?.map(comment => {

@@ -3,11 +3,14 @@
 namespace App\Notifications;
 
 use App\Models\Task;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AddCommentNotification extends Notification
+class AddCommentNotification extends Notification implements ShouldQueue
 {
+    use Queueable;
     private Task $task;
 
     public function __construct(Task $task)
@@ -18,6 +21,13 @@ class AddCommentNotification extends Notification
     public function via($notifiable): array
     {
         return ['mail'];
+    }
+
+    public function viaQueues(): array
+    {
+        return [
+            'mail' => 'mail-queue',
+        ];
     }
 
     public function toMail($notifiable): MailMessage

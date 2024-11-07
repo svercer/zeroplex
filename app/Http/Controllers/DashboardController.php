@@ -13,7 +13,6 @@ class DashboardController extends Controller
     {
         try {
             if (request()->user()->hasRole(Role::ADMIN->value)) {
-
                 $tasks_count = Task::all()->count();
             } else {
                 $tasks_count = Auth::user()->tasks()->count();
