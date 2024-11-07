@@ -29,6 +29,12 @@ DB_DATABASE=zeroplex
 DB_USERNAME=sail
 DB_PASSWORD=password
 ```
+## Mailtrap setup
+need to create account and then grab laravel configuration from Mailtrap
+
+Example:
+
+![img.png](img.png)
 
 ```sail up -d```
 
@@ -61,6 +67,10 @@ and then in other terminal run
 then run 
 
 ```Artisan::call(task:expiration)```
+
+
+
+
 
 
 
