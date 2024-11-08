@@ -41,7 +41,7 @@ const Edit = () => {
 
                 {errors.title && <InputError message={errors.title}/>}
                 <textarea
-                    className={'rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500'}
+                    className={'rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 min-h-60'}
                     value={data.description}
                     onChange={e => setData('description', e.target.value)}
                 />

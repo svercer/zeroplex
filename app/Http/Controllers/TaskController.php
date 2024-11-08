@@ -64,12 +64,14 @@ class TaskController extends Controller
         } catch (\Throwable $tr) {
             throw $tr;
         }
-        return to_route('tasks.create');
+        return to_route('tasks.index');
     }
 
     public function show(Task $task)
     {
-        $task->load(['status', 'comments', 'comments.user','user']);
+        $task->load(['status', 'comments' => function ($query) {
+            $query->orderBy('created_at', 'desc');
+        }, 'comments.user','user']);
         return Inertia::render('Task/View', ['task' => $task]);
     }
 

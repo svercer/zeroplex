@@ -10,6 +10,9 @@ import TextInput from "@/Components/TextInput.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
 import queryString from 'query-string';
+import {BsClock} from "react-icons/bs";
+import {BiUser} from "react-icons/bi";
+import Card from "@/Components/Task/Card.jsx";
 
 const Index = () => {
     const {tasks, auth, statuses} = usePage().props
@@ -90,41 +93,15 @@ const Index = () => {
                 <PrimaryButton type={'submit'} disabled={processing}>Search</PrimaryButton>
                 <Link href={route('tasks.index')}>Reset</Link>
             </form>
-            <table>
-                <thead>
-                <tr>
-                    <th className="border border-gray-300 text-left px-2 py-2">Title</th>
-                    <th className="border border-gray-300 text-left px-2 py-2">Description</th>
-                    <th className="border border-gray-300 text-left px-2 py-2">Due Date</th>
-                    <th className="border border-gray-300 text-left px-2 py-2">Status</th>
-                    {isAdmin(auth.user) && <th className="border border-gray-300 text-left px-2 py-2">User</th>}
-                    <th className="border border-gray-300 text-left px-2 py-2">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
+            <div className={'grid grid-cols-3 gap-3'}>
                 {
                     tasks?.map(task => {
                         return (
-                            <tr key={task.id}>
-                                <td className="border border-gray-300 px-4 py-2">{task.title}</td>
-                                <td className="border border-gray-300 px-4 py-2">{task.description}</td>
-                                <td className="border border-gray-300 px-4 py-2">{task.due_date}</td>
-                                <td className="border border-gray-300 px-4 py-2">{task.status.name}</td>
-                                {isAdmin(auth.user) &&
-                                    <td className="border border-gray-300 px-4 py-2">{task.user.email}</td>}
-                                <td className="border border-gray-300 px-4 py-2 ">
-                                    <div className={'flex flex-row items-center gap-2'}>
-                                        <Link href={route('tasks.edit', {task: task.id})}>Edit</Link>
-                                        <DangerButton onClick={() => handleDelete(task)}>Delete</DangerButton>
-                                        <Link href={route('tasks.show', {task: task.id})}>View</Link>
-                                    </div>
-                                </td>
-                            </tr>
+                            <Card task={task} key={task.id} handleDelete={handleDelete}/>
                         )
                     })
                 }
-                </tbody>
-            </table>
+            </div>
             <ToastContainer/>
         </AuthenticatedLayout>
     );

@@ -2,13 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Models\Task;
+use App\Models\Comment;
 use Illuminate\Database\Seeder;
 
-class TaskSeeder extends Seeder
+class CommentSeeder extends Seeder
 {
     public function run(): void
     {
-        Task::factory()->count(20)->create();
+        Comment::factory()->count(20)->create();
+
     }
 }
