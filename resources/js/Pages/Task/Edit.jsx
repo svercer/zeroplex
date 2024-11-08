@@ -51,7 +51,7 @@ const Edit = () => {
                     value={data.due_date}
                     onChange={e => setData('due_date', e.target.value)}
                 />
-                {errors.description && <InputErrorstatus message={errors.due_date}/>}
+                {errors.due_date && <InputErrorstatus message={errors.due_date}/>}
                 <select value={data.status_id} onChange={(e) => setData('status_id', e.target.value)}>
                     {statuses.map(status => {
                         return (

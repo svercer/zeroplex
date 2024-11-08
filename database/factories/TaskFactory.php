@@ -18,7 +18,7 @@ class TaskFactory extends Factory
             'title' => $this->faker->text('64'),
             'description' => $this->faker->text('1000'),
             'due_date' => Carbon::now(),
-            'created_at' => Carbon::now(),
+            'created_at' => $this->faker->dateTimeBetween('-1 month', 'now'),
             'updated_at' => Carbon::now(),
             'status_id' => $this->faker->numberBetween(1, 3),
             'user_id' => User::factory(),

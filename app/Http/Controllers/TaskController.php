@@ -27,6 +27,7 @@ class TaskController extends Controller
                             $query->where('status_id', $request->status_id);
                         }
                     })
+                    ->orderBy('created_at', $request->order_by ?? 'desc')
                     ->get();
             } else {
                 $tasks = request()->user()->tasks()->with('status')
@@ -38,6 +39,7 @@ class TaskController extends Controller
                             $query->where('status_id', $request->status_id);
                         }
                     })
+                    ->orderBy('created_at', $request->order_by ?? 'desc')
                     ->get();
             }
         } catch (\Throwable $tr) {

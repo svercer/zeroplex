@@ -37,7 +37,7 @@ const Create = () => {
                            value={data.due_date}
                            placeholder={'Please select a date'}
                            onChange={e => setData('due_date', e.target.value)}/>
-                {errors.description && <div className={'text-red-500'}>{errors.description}</div>}
+                {errors.due_date && <div className={'text-red-500'}>{errors.due_date}</div>}
                 <div className={'flex flex-row justify-start'}>
                     <PrimaryButton type="submit" disabled={processing}>Save</PrimaryButton>
                 </div>

@@ -45,7 +45,8 @@ const Index = () => {
 
     const {data, setData, get, processing,} = useForm({
         due_date: parsed?.due_date ?? '',
-        status_id: parsed?.status_id ?? ''
+        status_id: parsed?.status_id ?? '',
+        order_by: parsed?.order_by ?? 'DESC',
     })
 
     const handleFilter = (e) => {
@@ -53,6 +54,7 @@ const Index = () => {
         get(route('tasks.index', {
             due_date: data.due_date,
             status_id: data.status_id,
+            order_by: data.order_by
         }))
     };
 
@@ -90,6 +92,11 @@ const Index = () => {
                         })}
                     </select>
                 }
+                <select value={data.order_by} onChange={(e) => setData('order_by', e.target.value)}>
+
+                    <option value={'DESC'}>Latest</option>
+                    <option value={'ASC'}>Oldest</option>
+                </select>
                 <PrimaryButton type={'submit'} disabled={processing}>Search</PrimaryButton>
                 <Link href={route('tasks.index')}>Reset</Link>
             </form>
