@@ -23,8 +23,15 @@ class TaskExpirationJob implements ShouldQueue
 
     public function handle(): void
     {
-        $expiredTasks = Task::where('due_date', '<' , Carbon::now())->with('user')->get();
+        $expiredTasks = Task::where('due_date', '<' , Carbon::now())
+            ->with('user')
+            ->whereDoesntHave('task_reminder_log')
+            ->get();
+
         foreach ($expiredTasks as $task) {
+            $task->task_reminder_log()->create([
+               'send_at' => Carbon::now()
+            ]);
             try {
                 Mail::to($task->user->email)->sendNow(new TaskExpirationMail($task));
                 sleep(5); // not to get to many emails per second

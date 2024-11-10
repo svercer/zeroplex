@@ -16,7 +16,7 @@ class Task extends Model
       'description',
       'due_date',
       'status_id',
-      'user_id'
+      'user_id',
     ];
 
 
@@ -33,5 +33,10 @@ class Task extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function task_reminder_log(): HasOne
+    {
+        return $this->hasOne(TaskRemindersLog::class);
     }
 }
